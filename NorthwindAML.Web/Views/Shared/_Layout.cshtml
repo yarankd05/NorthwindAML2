@@ -3,48 +3,75 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - NorthwindAML.Web</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@ViewData["Title"] — NorthwindAML</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/NorthwindAML.Web.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NorthwindAML.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <span class="logo-hex">⬡</span>
+                <div>
+                    <div class="logo-title">NW<span class="logo-accent">AML</span></div>
+                    <div class="logo-sub">Compliance Monitor</div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
+            <nav class="sidebar-nav">
+                <a href="/Home/Index" class="nav-item @(ViewData["Page"]?.ToString() == "Dashboard" ? "active" : "")">
+                    <span class="nav-icon">▣</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/Home/Customers" class="nav-item @(ViewData["Page"]?.ToString() == "Customers" ? "active" : "")">
+                    <span class="nav-icon">◈</span>
+                    <span>Customers</span>
+                </a>
+                <a href="/Home/Watchlist" class="nav-item @(ViewData["Page"]?.ToString() == "Watchlist" ? "active" : "")">
+                    <span class="nav-icon">⚑</span>
+                    <span>Watchlist</span>
+                </a>
+                <a href="/Home/TransactionMonitor" class="nav-item @(ViewData["Page"]?.ToString() == "Monitor" ? "active" : "")">
+                    <span class="nav-icon">◎</span>
+                    <span>TX Monitor</span>
+                </a>
+                <a href="/Home/RiskScores" class="nav-item @(ViewData["Page"]?.ToString() == "Risk" ? "active" : "")">
+                    <span class="nav-icon">◆</span>
+                    <span>Risk Scores</span>
+                </a>
+                <a href="/Home/SAR" class="nav-item @(ViewData["Page"]?.ToString() == "SAR" ? "active" : "")">
+                    <span class="nav-icon">⊛</span>
+                    <span>SAR Records</span>
+                </a>
+            </nav>
+            <div class="sidebar-bottom">
+                <div class="sidebar-status">
+                    <div class="status-dot"></div>
+                    <span>System Online</span>
+                </div>
+                <a href="/Auth/Logout" class="logout-btn">⏻ Logout</a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="top-bar">
+                <h1 class="page-title">@ViewData["Title"]</h1>
+                <div class="top-bar-right">
+                    <span class="user-badge">@User.Identity?.Name</span>
+                    <span class="sys-time" id="sysTime"></span>
+                </div>
+            </header>
+            <div class="content-area">
+                @RenderBody()
+            </div>
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - NorthwindAML.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        function updateTime() {
+            document.getElementById('sysTime').textContent = new Date().toLocaleTimeString('en-GB', {hour12: false});
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

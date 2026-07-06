@@ -1,8 +1,77 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
+    ViewData["Page"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="stats-grid">
+    <div class="stat-card accent">
+        <div class="stat-label">Total Customers</div>
+        <div class="stat-value">@ViewBag.TotalCustomers</div>
+    </div>
+    <div class="stat-card danger">
+        <div class="stat-label">Open SARs</div>
+        <div class="stat-value">@ViewBag.OpenSARs</div>
+    </div>
+    <div class="stat-card warning">
+        <div class="stat-label">High Risk</div>
+        <div class="stat-value">@ViewBag.HighRisk</div>
+    </div>
+    <div class="stat-card success">
+        <div class="stat-label">System Status</div>
+        <div class="stat-value" style="font-size:20px;margin-top:8px">Online</div>
+    </div>
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">High Risk Customers</div>
+        <span class="badge badge-danger">Score ≥ 50</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Risk Score</th>
+                <th>Level</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in ViewBag.Scores)
+            {
+                string badge = s.Score >= 150 ? "danger" : s.Score >= 80 ? "warning" : s.Score >= 50 ? "accent" : "success";
+                string label = s.Score >= 150 ? "CRITICAL" : s.Score >= 80 ? "HIGH" : s.Score >= 50 ? "ELEVATED" : "CLEAN";
+                <tr>
+                    <td style="font-family:var(--font-mono);color:var(--accent)">@s.CustomerID</td>
+                    <td style="font-family:var(--font-mono);color:var(--@badge)">@s.Score</td>
+                    <td><span class="badge badge-@badge">@label</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">Recent SAR Records</div>
+        <a href="/Home/SAR" class="btn btn-ghost" style="padding:6px 14px;font-size:11px">View All</a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Generated</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in ViewBag.SARs)
+            {
+                <tr>
+                    <td style="font-family:var(--font-mono);color:var(--accent)">@s.CustomerID</td>
+                    <td style="color:var(--text-muted);font-size:12px">@s.GeneratedDate.ToString("MM/dd/yyyy")</td>
+                    <td><span class="badge badge-@(s.Status == "Open" ? "danger" : "success")">@s.Status</span></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

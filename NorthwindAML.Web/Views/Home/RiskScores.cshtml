@@ -1,0 +1,58 @@
+@model IEnumerable<NorthwindAML.Domain.Entities.CustomerRiskScore>
+@{
+    ViewData["Title"] = "Risk Scores";
+    ViewData["Page"] = "Risk";
+}
+
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">Customer Risk Scores</div>
+        <div style="display:flex;gap:8px">
+            <span class="badge badge-danger">CRITICAL ≥150</span>
+            <span class="badge badge-warning">HIGH ≥80</span>
+            <span class="badge badge-accent">ELEVATED ≥50</span>
+            <span class="badge badge-success">CLEAN &lt;50</span>
+        </div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Score</th>
+                <th>Level</th>
+                <th>Indicator</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var max = Model.Any() ? Model.Max(s => s.Score) : 1;
+                if (max == 0) max = 1;
+            }
+            @foreach (var s in Model)
+            {
+                var pct = Math.Min((double)s.Score / max * 100, 100);
+                string badge, color, label;
+                if (s.Score >= 150) { badge = "danger"; color = "var(--danger)"; label = "CRITICAL"; }
+                else if (s.Score >= 80) { badge = "warning"; color = "var(--warning)"; label = "HIGH"; }
+                else if (s.Score >= 50) { badge = "accent"; color = "var(--accent)"; label = "ELEVATED"; }
+                else { badge = "success"; color = "var(--success)"; label = "CLEAN"; }
+
+                <tr>
+                    <td style="font-family:var(--font-mono);color:var(--accent)">@s.CustomerID</td>
+                    <td style="font-family:var(--font-mono);color:@color;font-weight:600">@s.Score</td>
+                    <td><span class="badge badge-@badge">@label</span></td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:8px">
+                            <div class="score-bar">
+                                <div class="score-fill" style="width:@pct%;background:@color"></div>
+                            </div>
+                            <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono)">@Math.Round(pct)%</span>
+                        </div>
+                    </td>
+                    <td style="color:var(--text-muted);font-size:12px">@s.LastUpdated.ToString("MM/dd/yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

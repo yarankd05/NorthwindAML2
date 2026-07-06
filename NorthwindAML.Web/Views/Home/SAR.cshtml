@@ -1,0 +1,79 @@
+@model IEnumerable<NorthwindAML.Domain.Entities.SARRecord>
+@{
+    ViewData["Title"] = "SAR Records";
+    ViewData["Page"] = "SAR";
+}
+
+<div class="form-card">
+    <div class="form-title">SAR Generator</div>
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success" style="display:block">✓ @TempData["Message"]</div>
+    }
+    <div class="form-row" style="align-items:center">
+        <div style="flex:1;color:var(--text-muted);font-size:13px">
+            Auto generates Suspicious Activity Reports for customers with risk score <span style="color:var(--danger);font-family:var(--font-mono)">≥ 50</span>.
+        </div>
+        <form asp-action="GenerateSARs" method="post">
+            <button type="submit" class="btn btn-accent">⊛ Generate SARs</button>
+        </form>
+    </div>
+</div>
+
+<div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="stat-card danger">
+        <div class="stat-label">Open SARs</div>
+        <div class="stat-value">@Model.Count(s => s.Status == "Open")</div>
+    </div>
+    <div class="stat-card success">
+        <div class="stat-label">Reviewed</div>
+        <div class="stat-value">@Model.Count(s => s.Status == "Reviewed")</div>
+    </div>
+    <div class="stat-card accent">
+        <div class="stat-label">Total SARs</div>
+        <div class="stat-value">@Model.Count()</div>
+    </div>
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">Suspicious Activity Reports</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>SAR ID</th>
+                <th>Customer ID</th>
+                <th>Generated</th>
+                <th>Summary</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td style="font-family:var(--font-mono);color:var(--text-muted)">@s.SARID</td>
+                    <td style="font-family:var(--font-mono);color:var(--accent)">@s.CustomerID</td>
+                    <td style="color:var(--text-muted);font-size:12px">@s.GeneratedDate.ToString("MM/dd/yyyy")</td>
+                    <td style="color:var(--text-muted);font-size:12px;max-width:280px">@s.Summary</td>
+                    <td><span class="badge badge-@(s.Status == "Open" ? "danger" : "success")">@s.Status</span></td>
+                    <td>
+                        @if (s.Status == "Open")
+                        {
+                            <form asp-action="MarkReviewed" method="post" style="display:inline">
+                                <input type="hidden" name="customerId" value="@s.CustomerID" />
+                                <button type="submit" class="btn btn-ghost" style="padding:5px 12px;font-size:11px">Mark Reviewed</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span style="color:var(--text-muted);font-size:12px">✓ Done</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

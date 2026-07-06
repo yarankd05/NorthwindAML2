@@ -1,0 +1,86 @@
+@{
+    ViewData["Title"] = "TX Monitor";
+    ViewData["Page"] = "Monitor";
+}
+
+<div class="form-card">
+    <div class="form-title">Transaction Scanner</div>
+    <div id="scanAlert" class="alert"></div>
+    <div class="form-row" style="align-items:center">
+        <div style="flex:1;color:var(--text-muted);font-size:13px">
+            Scans all orders and flags any transaction above <span style="color:var(--accent);font-family:var(--font-mono)">$2,000</span>. Risk scores update automatically.
+        </div>
+        <button class="btn btn-accent" onclick="runScan()">▶ Run Scan</button>
+    </div>
+</div>
+
+<div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="stat-card danger">
+        <div class="stat-label">Total Flags</div>
+        <div class="stat-value" id="totalFlags">—</div>
+    </div>
+    <div class="stat-card warning">
+        <div class="stat-label">Customers Flagged</div>
+        <div class="stat-value" id="customersFlags">—</div>
+    </div>
+    <div class="stat-card accent">
+        <div class="stat-label">Threshold</div>
+        <div class="stat-value" style="font-size:24px;margin-top:4px">$2,000</div>
+    </div>
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">Flagged Transactions</div>
+        <span class="badge badge-danger" id="flagCount">—</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Flag ID</th>
+                <th>Order ID</th>
+                <th>Customer ID</th>
+                <th>Flag Type</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody id="flagsTable">
+            <tr><td colspan="5" class="loading">Loading...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+<script>
+async function loadFlags() {
+    const data = await fetch('/api/transactionflags').then(r => r.json());
+    document.getElementById('totalFlags').textContent = data.length;
+    document.getElementById('flagCount').textContent = data.length + ' flags';
+    const unique = new Set(data.map(f => f.customerID));
+    document.getElementById('customersFlags').textContent = unique.size;
+    document.getElementById('flagsTable').innerHTML = data.slice(0, 50).map(f => `
+        <tr>
+            <td style="font-family:var(--font-mono);color:var(--text-muted)">${f.flagID}</td>
+            <td style="font-family:var(--font-mono)">${f.orderID}</td>
+            <td style="font-family:var(--font-mono);color:var(--danger)">${f.customerID}</td>
+            <td><span class="badge badge-danger">${f.flagType}</span></td>
+            <td style="color:var(--text-muted);font-size:12px">${new Date(f.flaggedDate).toLocaleDateString()}</td>
+        </tr>
+    `).join('');
+}
+
+async function runScan() {
+    const alertBox = document.getElementById('scanAlert');
+    alertBox.style.cssText = 'display:block;background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,201,167,0.3)';
+    alertBox.textContent = '⟳ Scanning transactions...';
+    const res = await fetch('/api/transactionflags/scan', { method: 'POST' });
+    const text = await res.text();
+    alertBox.className = 'alert alert-success';
+    alertBox.style.cssText = 'display:block';
+    alertBox.textContent = '✓ ' + text;
+    loadFlags();
+}
+
+loadFlags();
+</script>
+}

@@ -1,0 +1,81 @@
+@{
+    ViewData["Title"] = "Watchlist";
+    ViewData["Page"] = "Watchlist";
+}
+
+<div class="form-card">
+    <div class="form-title">Add to Watchlist</div>
+    <div id="alertBox" class="alert"></div>
+    <div class="form-row">
+        <div class="form-group">
+            <label>Entity Name</label>
+            <input type="text" id="flaggedName" placeholder="Company or person name" />
+        </div>
+        <div class="form-group">
+            <label>Reason</label>
+            <input type="text" id="reason" placeholder="Reason for flagging" />
+        </div>
+        <div class="form-group" style="flex:0">
+            <label>&nbsp;</label>
+            <button class="btn btn-danger" onclick="addToWatchlist()">⚑ Add</button>
+        </div>
+    </div>
+</div>
+
+<div class="table-container">
+    <div class="table-header">
+        <div class="table-title">Flagged Entities</div>
+        <span class="badge badge-danger" id="wlCount">loading...</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Entity Name</th>
+                <th>Reason</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="watchlistTable">
+            <tr><td colspan="4" class="loading">Loading...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+<script>
+async function loadWatchlist() {
+    const res = await fetch('/api/watchlist');
+    const data = await res.json();
+    document.getElementById('wlCount').textContent = data.length + ' flagged';
+    document.getElementById('watchlistTable').innerHTML = data.map(w => `
+        <tr>
+            <td style="font-family:var(--font-mono);color:var(--text-muted)">${w.watchlistID}</td>
+            <td style="color:var(--danger);font-weight:500">⚑ ${w.flaggedName}</td>
+            <td style="color:var(--text-muted)">${w.reason}</td>
+            <td><span class="badge badge-danger">FLAGGED</span></td>
+        </tr>
+    `).join('');
+}
+
+async function addToWatchlist() {
+    const body = {
+        flaggedName: document.getElementById('flaggedName').value,
+        reason: document.getElementById('reason').value
+    };
+    const alertBox = document.getElementById('alertBox');
+    const res = await fetch('/api/watchlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    });
+    const text = await res.text();
+    alertBox.className = 'alert alert-' + (res.ok ? 'success' : 'danger');
+    alertBox.textContent = (res.ok ? '✓ ' : '⚠ ') + text;
+    alertBox.style.display = 'block';
+    if (res.ok) loadWatchlist();
+}
+
+loadWatchlist();
+</script>
+}
