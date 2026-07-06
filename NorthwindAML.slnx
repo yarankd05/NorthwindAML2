@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="NorthwindAML.Application/NorthwindAML.Application.csproj" />
+  <Project Path="NorthwindAML.Domain/NorthwindAML.Domain.csproj" />
+  <Project Path="NorthwindAML.Infrastructure/NorthwindAML.Infrastructure.csproj" />
+  <Project Path="NorthwindAML.Web/NorthwindAML.Web.csproj" />
+</Solution>

@@ -1,0 +1,124 @@
+@model NorthwindAML.Application.DTOs.RegisterDto
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>NorthwindAML — Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #080D1A;
+            color: #EEF2FF;
+            font-family: 'IBM Plex Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-box {
+            background: #0F1629;
+            border: 1px solid #1E2D4A;
+            border-radius: 16px;
+            padding: 48px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .logo {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 24px;
+            font-weight: 600;
+            color: #EEF2FF;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+        .logo span { color: #00C9A7; }
+        .subtitle {
+            font-size: 12px;
+            color: #7B8FAD;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 40px;
+        }
+        .form-group { margin-bottom: 20px; }
+        label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #7B8FAD;
+            font-family: 'IBM Plex Mono', monospace;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 100%;
+            background: #080D1A;
+            border: 1px solid #1E2D4A;
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #EEF2FF;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        input:focus, select:focus { border-color: #00C9A7; }
+        select option { background: #080D1A; }
+        .btn {
+            width: 100%;
+            background: #00C9A7;
+            color: #080D1A;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.15s;
+        }
+        .btn:hover { background: #00b396; }
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #7B8FAD;
+        }
+        .login-link a { color: #00C9A7; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="logo">NW<span>AML</span></div>
+        <div class="subtitle">Create Account</div>
+
+        <form asp-action="Register" method="post">
+            <div class="form-group">
+                <label>Username</label>
+                <input asp-for="Username" placeholder="choose a username" />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input asp-for="Password" type="password" placeholder="choose a password" />
+            </div>
+            <div class="form-group">
+                <label>Role</label>
+                <select asp-for="Role">
+                    <option value="Analyst">Analyst</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">Create Account</button>
+        </form>
+
+        <div class="login-link">
+            already have an account? <a href="/Auth/Login">sign in</a>
+        </div>
+    </div>
+</body>
+</html>

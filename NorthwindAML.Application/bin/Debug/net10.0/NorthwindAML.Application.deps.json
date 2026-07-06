@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "NorthwindAML.Application/1.0.0": {
+        "dependencies": {
+          "NorthwindAML.Domain": "1.0.0"
+        },
+        "runtime": {
+          "NorthwindAML.Application.dll": {}
+        }
+      },
+      "NorthwindAML.Domain/1.0.0": {
+        "runtime": {
+          "NorthwindAML.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "NorthwindAML.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NorthwindAML.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

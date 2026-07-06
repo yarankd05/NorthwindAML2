@@ -1,0 +1,15 @@
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/bin/Debug/net10.0/NorthwindAML.Application.deps.json
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/bin/Debug/net10.0/NorthwindAML.Application.dll
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/bin/Debug/net10.0/NorthwindAML.Application.pdb
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/bin/Debug/net10.0/NorthwindAML.Domain.dll
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/bin/Debug/net10.0/NorthwindAML.Domain.pdb
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/obj/Debug/net10.0/NorthwindAML.Application.csproj.AssemblyReference.cache
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/obj/Debug/net10.0/NorthwindAML.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/obj/Debug/net10.0/NorthwindAML.Application.AssemblyInfoInputs.cache
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/obj/Debug/net10.0/NorthwindAML.Application.AssemblyInfo.cs
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/obj/Debug/net10.0/NorthwindAML.Application.csproj.CoreCompileInputs.cache
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/obj/Debug/net10.0/Northwin.01C8F4AB.Up2Date
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/obj/Debug/net10.0/NorthwindAML.Application.dll
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/obj/Debug/net10.0/refint/NorthwindAML.Application.dll
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/obj/Debug/net10.0/NorthwindAML.Application.pdb
+/Users/yaraelnakadi/Desktop/NorthwindAML2/NorthwindAML.Application/obj/Debug/net10.0/ref/NorthwindAML.Application.dll
